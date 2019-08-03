@@ -1,13 +1,18 @@
-const { GraphQLObjectType, GraphQLString } = require("graphql");
+const {
+  GraphQLObjectType,
+  GraphQLString,
+  GraphQLList,
+  GraphQLInt
+} = require("graphql");
 
 const PostType = new GraphQLObjectType({
   name: "PostQueryType",
   fields: {
-    author_id: { type: GraphQLString },
+    author_id: { type: GraphQLID },
     author: { type: GraphQLString },
     created: { type: GraphQLString },
     description: { type: GraphQLString },
-    likes: Number
+    likes: { type: GraphQLList(GraphQLInt) }
   }
 });
 
