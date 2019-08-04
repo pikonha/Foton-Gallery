@@ -19,18 +19,12 @@ const initDB = async (models_dir, database_uri) => {
     db = {};
 
   try {
-    connection = mongoose
-      .connect(database_uri, { useNewUrlParser: true })
-      .catch(error => console.error(error));
-  } catch (e) {
-    return Promise.reject(e);
-  }
+    connection = mongoose.connect(database_uri, { useNewUrlParser: true });
 
-  if (connection) {
-    try {
+    if (connection) {
       const files = fs.readdirSync(models_dir);
 
-      // Get models name from files in model directory
+      // Get models name from files in model directory (e.g. Post)
       files.forEach(file => {
         let name = file.replace(/\.js$/, "");
 
@@ -38,12 +32,12 @@ const initDB = async (models_dir, database_uri) => {
 
         console.info(`Model being loaded: ${name}`);
       });
-    } catch (e) {
-      return Promise.reject(e);
     }
-  }
 
-  return Promise.resolve(db);
+    return Promise.resolve(db);
+  } catch (e) {
+    return Promise.reject(e);
+  }
 };
 
 module.exports = {

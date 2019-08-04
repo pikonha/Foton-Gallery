@@ -10,14 +10,14 @@ const Post = new GraphQLObjectType({
   name: "Post",
   fields: () => ({
     id: {
-      type: GraphQLString,
+      type: GraphQLID,
       resolve: user => user._id
     },
-    author_id: { type: GraphQLString },
+    owner: { type: GraphQLString },
     author: { type: GraphQLString },
     created: { type: GraphQLString },
     description: { type: GraphQLString },
-    likes: { type: GraphQLList(GraphQLInt) }
+    likes: { type: GraphQLInt }
   })
 });
 

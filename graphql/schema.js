@@ -1,4 +1,5 @@
 const {
+  GraphQLID,
   GraphQLSchema,
   GraphQLObjectType,
   GraphQLString,
@@ -12,10 +13,10 @@ const Query = new GraphQLObjectType({
   fields: {
     post: {
       type: Post,
-      args: { id: { type: GraphQLString } },
-      resolve: async (source, args, ctx) => {
+      args: { id: { type: GraphQLID } },
+      resolve: async (source, { id }, ctx) => {
         try {
-          return await ctx.db.Post.findById(args.id);
+          return await ctx.db.Post.findById(id);
         } catch (e) {
           throw new Error(e);
         }
@@ -28,6 +29,31 @@ const Query = new GraphQLObjectType({
   }
 });
 
+const Mutation = new GraphQLObjectType({
+  name: "RootMutation",
+  fields: {
+    addPost: {
+      type: Post,
+      args: {
+        owner: { type: GraphQLString },
+        author: { type: GraphQLString },
+        description: { type: GraphQLString }
+      },
+      resolve: (source, args, ctx) => {
+        const new_post = new ctx.db.Post({
+          owner: args.owner,
+          author: args.author,
+          description: args.description
+        });
+        new_post.save();
+      }
+    }
+    // likePost: {},
+    // unlikePost: {}
+  }
+});
+
 module.exports = new GraphQLSchema({
-  query: Query
+  query: Query,
+  mutation: Mutation
 });
