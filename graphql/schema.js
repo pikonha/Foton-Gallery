@@ -8,6 +8,11 @@ const {
 
 const Post = require("./types/Post");
 
+const addPost = require("./mutations/addPost");
+const deletePost = require("./mutations/deletePost");
+const likePost = require("./mutations/likePost");
+const unlikePost = require("./mutations/unlikePost");
+
 const Query = new GraphQLObjectType({
   name: "RootQuery",
   fields: {
@@ -38,71 +43,10 @@ const Query = new GraphQLObjectType({
 const Mutation = new GraphQLObjectType({
   name: "RootMutation",
   fields: {
-    addPost: {
-      type: Post,
-      args: {
-        owner: { type: GraphQLString },
-        author: { type: GraphQLString },
-        description: { type: GraphQLString }
-      },
-      resolve: (source, args, ctx) => {
-        const new_post = new ctx.db.Post({
-          owner: args.owner,
-          author: args.author,
-          description: args.description
-        });
-        return new_post.save();
-      }
-    },
-    likePost: {
-      type: Post,
-      args: {
-        id: { type: GraphQLString }
-      },
-      resolve: async (source, { id }, ctx) => {
-        try {
-          const post = await ctx.db.Post.findById(id);
-          post.likes += 1;
-
-          return post.save();
-        } catch (e) {
-          throw new Error(e);
-        }
-      }
-    },
-    unlikePost: {
-      type: Post,
-      args: {
-        id: { type: GraphQLString }
-      },
-      resolve: async (source, { id }, ctx) => {
-        try {
-          const post = await ctx.db.Post.findById(id);
-
-          if (post.likes > 0) {
-            post.likes -= 1;
-            return post.save();
-          }
-          return post;
-        } catch (e) {
-          throw new Error(e);
-        }
-      }
-    },
-    deletePost: {
-      type: Post,
-      args: {
-        id: { type: GraphQLString }
-      },
-      resolve: async (source, { id }, ctx) => {
-        try {
-          const post = await ctx.db.Post.findById(id);
-          return post.remove();
-        } catch (e) {
-          throw new Error(e);
-        }
-      }
-    }
+    addPost: addPost,
+    likePost: likePost,
+    unlikePost: unlikePost,
+    deletePost: deletePost
   }
 });
 
