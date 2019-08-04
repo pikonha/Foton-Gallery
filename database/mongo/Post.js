@@ -3,5 +3,6 @@ module.exports = {
   author: String,
   created: { type: Date, default: Date.now },
   description: String,
-  likes: { type: Number, default: 0 }
+  likes: { type: Number, default: 0 },
+  tags: [{ type: String }]
 };

@@ -24,7 +24,13 @@ const Query = new GraphQLObjectType({
     },
     posts: {
       type: new GraphQLList(Post),
-      resolve: (source, args, ctx) => ctx.db.Post.find({})
+      resolve: async (source, args, ctx) => {
+        try {
+          return await ctx.db.Post.find({});
+        } catch (e) {
+          throw new Error(e);
+        }
+      }
     }
   }
 });
@@ -45,11 +51,58 @@ const Mutation = new GraphQLObjectType({
           author: args.author,
           description: args.description
         });
-        new_post.save();
+        return new_post.save();
+      }
+    },
+    likePost: {
+      type: Post,
+      args: {
+        id: { type: GraphQLString }
+      },
+      resolve: async (source, { id }, ctx) => {
+        try {
+          const post = await ctx.db.Post.findById(id);
+          post.likes += 1;
+
+          return post.save();
+        } catch (e) {
+          throw new Error(e);
+        }
+      }
+    },
+    unlikePost: {
+      type: Post,
+      args: {
+        id: { type: GraphQLString }
+      },
+      resolve: async (source, { id }, ctx) => {
+        try {
+          const post = await ctx.db.Post.findById(id);
+
+          if (post.likes > 0) {
+            post.likes -= 1;
+            return post.save();
+          }
+          return post;
+        } catch (e) {
+          throw new Error(e);
+        }
+      }
+    },
+    deletePost: {
+      type: Post,
+      args: {
+        id: { type: GraphQLString }
+      },
+      resolve: async (source, { id }, ctx) => {
+        try {
+          const post = await ctx.db.Post.findById(id);
+          return post.remove();
+        } catch (e) {
+          throw new Error(e);
+        }
       }
     }
-    // likePost: {},
-    // unlikePost: {}
   }
 });
 

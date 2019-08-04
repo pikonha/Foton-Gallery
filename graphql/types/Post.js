@@ -17,7 +17,8 @@ const Post = new GraphQLObjectType({
     author: { type: GraphQLString },
     created: { type: GraphQLString },
     description: { type: GraphQLString },
-    likes: { type: GraphQLInt }
+    likes: { type: GraphQLInt },
+    tags: { type: GraphQLList(GraphQLString) }
   })
 });
 
