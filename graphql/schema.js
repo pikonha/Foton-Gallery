@@ -5,20 +5,25 @@ const {
   GraphQLList
 } = require("graphql");
 
-const Post = require("../database/mongo/Post");
-const PostGraphQLType = require("./types/Post");
+const Post = require("./types/Post");
 
 const Query = new GraphQLObjectType({
   name: "RootQuery",
   fields: {
     post: {
-      type: PostGraphQLType,
+      type: Post,
       args: { id: { type: GraphQLString } },
-      resolve: (parent, args) => Post.findById(args.id)
+      resolve: async (source, args, ctx) => {
+        try {
+          return await ctx.db.Post.findById(args.id);
+        } catch (e) {
+          throw new Error(e);
+        }
+      }
     },
     posts: {
-      type: GraphQLList(PostGraphQLType),
-      resolve: () => Post.find({})
+      type: new GraphQLList(Post),
+      resolve: (source, args, ctx) => ctx.db.Post.find({})
     }
   }
 });

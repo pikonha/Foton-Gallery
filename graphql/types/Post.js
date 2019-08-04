@@ -6,18 +6,19 @@ const {
   GraphQLInt
 } = require("graphql");
 
-const PostGraphQLType = new GraphQLObjectType({
+const Post = new GraphQLObjectType({
   name: "Post",
-  fields: {
-    author_id: {
-      type: GraphQLID,
-      resolve: ({ author_id }, arguments, context) => author_id
+  fields: () => ({
+    id: {
+      type: GraphQLString,
+      resolve: user => user._id
     },
+    author_id: { type: GraphQLString },
     author: { type: GraphQLString },
     created: { type: GraphQLString },
     description: { type: GraphQLString },
     likes: { type: GraphQLList(GraphQLInt) }
-  }
+  })
 });
 
-module.exports = PostGraphQLType;
+module.exports = Post;

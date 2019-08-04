@@ -14,13 +14,13 @@ const createMongooseModel = (model_name, models_dir) => {
   return mongoose.model(model_name, schema);
 };
 
-const initDB = async (models_dir, DATABASE_URI) => {
+const initDB = async (models_dir, database_uri) => {
   let connection,
     db = {};
 
   try {
     connection = mongoose
-      .connect(DATABASE_URI, { useNewUrlParser: true })
+      .connect(database_uri, { useNewUrlParser: true })
       .catch(error => console.error(error));
   } catch (e) {
     return Promise.reject(e);
@@ -35,6 +35,8 @@ const initDB = async (models_dir, DATABASE_URI) => {
         let name = file.replace(/\.js$/, "");
 
         db[name] = createMongooseModel(name, models_dir);
+
+        console.info(`Model being loaded: ${name}`);
       });
     } catch (e) {
       return Promise.reject(e);
