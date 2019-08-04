@@ -1,23 +1,31 @@
 const Koa = require("koa");
 const mount = require("koa-mount");
 const graphqlHTTP = require("koa-graphql");
+
 require("dotenv").config();
 
-require("./database/database")();
-const schema = require("./graphql/schema");
+const database = require("./database");
+const GraphQLSchema = require("./graphql/schema");
 
 const app = new Koa();
 
-app.use(
-  mount(
-    "/graphql",
-    graphqlHTTP({
-      schema: schema,
-      graphiql: true
-    })
-  )
-);
+(async () => {
+  app.context.db = await database.start(
+    __dirname + "/database/mongo",
+    process.env.DATABASE_URI
+  );
 
-app.listen(3000);
+  app.use(
+    mount(
+      "/graphql",
+      graphqlHTTP({
+        schema: GraphQLSchema,
+        graphiql: true
+      })
+    )
+  );
 
-app.on("error", err => log.error("server error", err));
+  app.listen(3000);
+
+  app.on("error", err => log.error("server error", err));
+})();

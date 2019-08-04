@@ -4,7 +4,7 @@
   "description": "Test to Full-Stack at Foton Tech Company",
   "main": "server.js",
   "scripts": {
-    "dev": "pm2 start server.js",
+    "dev": "nodemon server.js",
     "start": "node server.js",
     "test": "echo \"Error"
   },
@@ -27,6 +27,6 @@
     "mongoose": "^5.6.8"
   },
   "devDependencies": {
-    "pm2": "^3.5.1"
+    "nodemon": "^1.19.1"
   }
 }
