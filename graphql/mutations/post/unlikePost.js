@@ -1,6 +1,6 @@
 const { GraphQLString } = require("graphql");
 
-const Post = require("../types/Post");
+const Post = require("../../types/Post");
 
 module.exports = {
   type: Post,
