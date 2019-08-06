@@ -21,8 +21,10 @@
   "dependencies": {
     "dotenv": "^8.0.0",
     "graphql": "^14.4.2",
+    "jsonwebtoken": "^8.5.1",
     "koa": "^2.7.0",
     "koa-graphql": "^0.8.0",
+    "koa-jwt": "^3.6.0",
     "koa-mount": "^4.0.0",
     "mongoose": "^5.6.8"
   },

@@ -6,17 +6,21 @@ const {
   GraphQLInt
 } = require("graphql");
 
-const Post = new GraphQLObjectType({
+const UserType = require("../types/User");
+
+module.exports = new GraphQLObjectType({
   name: "Post",
   fields: () => ({
     id: { type: GraphQLID },
-    owner: { type: GraphQLString },
-    author: { type: GraphQLString },
+    owner: {
+      type: UserType,
+      resolve: (parent, args, ctx) => {
+        return ctx.db.User.findById(parent.owner);
+      }
+    },
+    likes: { type: GraphQLInt },
     created: { type: GraphQLString },
     description: { type: GraphQLString },
-    likes: { type: GraphQLInt },
-    tags: { type: GraphQLList(GraphQLString) }
+    comments: { type: GraphQLList(GraphQLString) }
   })
 });
-
-module.exports = Post;

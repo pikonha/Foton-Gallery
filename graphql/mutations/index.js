@@ -7,5 +7,7 @@ module.exports = new GraphQLObjectType({
     likePost: require("./post/deletePost"),
     unlikePost: require("./post/likePost"),
     deletePost: require("./post/unlikePost")
+    // createUser: require("./user/signUser"),
+    // getUser: require("./user/createUser")
   }
 });
