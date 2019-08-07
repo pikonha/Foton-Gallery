@@ -5,6 +5,7 @@ const graphqlHTTP = require("koa-graphql");
 
 require("dotenv").config();
 
+const auth = require("./auth");
 const database = require("./database");
 const GraphQLSchema = require("./graphql/schema");
 
@@ -16,13 +17,14 @@ const app = new Koa();
     process.env.DATABASE_URI
   );
 
-  /**  jwt authentication middleware
-   *   passthrough enabled to pass login/signup request to the /graphql endpoint
-   *  cookie to allow graphiql requests to be authenticated
-   */
+  //  retrieve jwt if present
+  //  passthrough enabled to pass login/signup request to the /graphql endpoint
+  //  cookie to allow graphiql requests to be authenticated
   app.use(
-    jwt({ secret: process.env.SECRET, passthrough: true, cookie: "token" })
+    jwt({ secret: process.env.JWT_SECRET, passthrough: true, cookie: "token" })
   );
+
+  app.use(auth.validate);
 
   app.use(
     mount(
