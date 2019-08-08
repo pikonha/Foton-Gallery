@@ -4,10 +4,11 @@ module.exports = new GraphQLObjectType({
   name: "RootMutation",
   fields: {
     addPost: require("./post/addPost"),
-    likePost: require("./post/deletePost"),
-    unlikePost: require("./post/likePost"),
-    deletePost: require("./post/unlikePost"),
+    deletePost: require("./post/deletePost"),
+    likePost: require("./post/likePost"),
+    unlikePost: require("./post/unlikePost"),
+    commentPost: require("./post/addComment"),
     createUser: require("./user/userSignup"),
-    getUser: require("./user/userUpdate")
+    updateUser: require("./user/userUpdate")
   }
 });

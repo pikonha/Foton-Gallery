@@ -1,15 +1,13 @@
-const { GraphQLString, GraphQLInt, GraphQLList } = require("graphql");
+const { GraphQLID, GraphQLString } = require("graphql");
 
-const Post = require("../../types/Post");
+const PostType = require("../../types/Post");
+const UserType = require("../../types/User");
 
 module.exports = {
-  type: Post,
+  type: PostType,
   args: {
-    owner: { type: GraphQLString },
-    likes: { type: GraphQLInt },
-    created: { type: GraphQLString },
-    description: { type: GraphQLString },
-    comments: { type: GraphQLList(GraphQLString) }
+    owner: { type: GraphQLID },
+    description: { type: GraphQLString }
   },
   resolve: (source, args, ctx) => {
     const new_post = new ctx.db.Post({
@@ -19,3 +17,11 @@ module.exports = {
     return new_post.save();
   }
 };
+
+// resolve: (parent, _, ctx) => {
+//   try {
+//     return ctx.db.User(parent.owner);
+//   } catch (e) {
+//     throw new Error(e);
+//   }
+// }
