@@ -16,14 +16,16 @@ module.exports = {
 
     try {
       const savedUser = await user.save();
+      const sub = await ctx.db.User.countDocuments();
+
       savedUser.authToken = await auth.generateToken({
         _id: user._id,
         username: user.username,
-        sub: ctx.db.User.count()
+        sub
       });
 
       // Allow graphiql to access as a validated user
-      ctx.cookie.set("token", savedUser.authToken);
+      ctx.cookies.set("token", savedUser.authToken);
 
       return savedUser;
     } catch (e) {
