@@ -8,10 +8,12 @@ The Gallery is a place where users can write posts, share with friends and inter
 - [x] Delete post
 - [x] Like/Unlike post
 - [ ] Posts with image
-- [ ] Edit post's tags
-- [ ] Search post by tag
-- [ ] Connect to an API
-- [ ] User authenticantion
+- [ ] Comment posts
+- [ ] Like comments
+- [x] User authenticantion
+- [ ] Implement tests
+- [ ] Handle exceptions correctly
+- [ ] Hash password
 
 ### Key points
 
