@@ -12,16 +12,21 @@ module.exports = {
     lastName: { type: new GraphQLNonNull(GraphQLString) }
   },
   resolve: async (parent, args, ctx) => {
-    const user = ctx.db.User(args);
+    let user = await ctx.db.User.findOne({ firstName: args.firstName });
+
+    if (user) {
+      return user;
+    }
+
+    user = ctx.db.User(args);
 
     try {
       const savedUser = await user.save();
-      const sub = await ctx.db.User.countDocuments();
 
       savedUser.authToken = await auth.generateToken({
         _id: user._id,
         username: user.username,
-        sub
+        sub: await ctx.db.User.countDocuments()
       });
 
       // Allow graphiql to access as a validated user
