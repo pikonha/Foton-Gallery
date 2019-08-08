@@ -17,7 +17,7 @@ const app = new Koa();
     process.env.DATABASE_URI
   );
 
-  //  retrieve jwt if present
+  //  retrieve and decode jwt if present
   //  passthrough enabled to pass login/signup request to the /graphql endpoint
   //  cookie to allow graphiql requests to be authenticated
   app.use(

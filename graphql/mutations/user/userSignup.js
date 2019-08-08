@@ -9,30 +9,24 @@ module.exports = {
     username: { type: new GraphQLNonNull(GraphQLString) },
     password: { type: new GraphQLNonNull(GraphQLString) },
     firstName: { type: new GraphQLNonNull(GraphQLString) },
-    lastName: { type: new GraphQLNonNull(GraphQLString) }
+    lastName: { type: new GraphQLNonNull(GraphQLString) },
+    email: { type: new GraphQLNonNull(GraphQLString) }
   },
   resolve: async (parent, args, ctx) => {
-    let user = await ctx.db.User.findOne({ firstName: args.firstName });
-
-    if (user) {
-      return user;
-    }
-
-    user = ctx.db.User(args);
-
     try {
-      const savedUser = await user.save();
+      const user = ctx.db.User(args).save();
 
-      savedUser.authToken = await auth.generateToken({
+      // Injects the token to the user that will be passed thorough context
+      user.authToken = await auth.generateToken({
         _id: user._id,
         username: user.username,
         sub: await ctx.db.User.countDocuments()
       });
 
       // Allow graphiql to access as a validated user
-      ctx.cookies.set("token", savedUser.authToken);
+      ctx.cookies.set("token", user.authToken);
 
-      return savedUser;
+      return user;
     } catch (e) {
       throw new Error(e);
     }
