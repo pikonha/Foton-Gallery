@@ -38,5 +38,5 @@ const app = new Koa();
 
   app.listen(3000);
 
-  app.on("error", err => log.error("server error", err));
+  app.on("error", err => console.error(err));
 })();
