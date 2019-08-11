@@ -19,7 +19,7 @@ const app = new Koa();
 
   //  retrieve and decode jwt if present
   //  passthrough enabled to pass login/signup request to the /graphql endpoint
-  //  cookie to allow graphiql requests to be authenticated
+  //  cookie allowing graphiql requests to be authenticated
   app.use(
     jwt({ secret: process.env.JWT_SECRET, passthrough: true, cookie: "token" })
   );
