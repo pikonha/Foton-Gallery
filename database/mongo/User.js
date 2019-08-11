@@ -8,6 +8,7 @@ module.exports = {
   password: { type: String, required: true, minlength: 3, maxlength: 50 },
   email: {
     type: mongoose.SchemaTypes.Email,
-    required: true
+    required: true,
+    unique: true
   }
 };
