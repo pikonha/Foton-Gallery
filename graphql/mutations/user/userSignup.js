@@ -1,10 +1,10 @@
 const { GraphQLString, GraphQLNonNull } = require("graphql");
 
 const UserType = require("../../types/User");
-const auth = require("../../../auth");
 
 module.exports = {
   type: UserType,
+  description: "Register a new user.",
   args: {
     username: { type: new GraphQLNonNull(GraphQLString) },
     password: { type: new GraphQLNonNull(GraphQLString) },
@@ -13,22 +13,22 @@ module.exports = {
     email: { type: new GraphQLNonNull(GraphQLString) }
   },
   resolve: async (parent, args, ctx) => {
-    try {
-      const user = ctx.db.User(args).save();
+    let user = await ctx.db.User.findOne({
+      username: args.username
+    });
 
-      // Injects the token to the user that will be passed thorough context
-      user.authToken = await auth.generateToken({
-        _id: user._id,
-        username: user.username,
-        sub: await ctx.db.User.countDocuments()
-      });
-
-      // Allow graphiql to access as a validated user
-      ctx.cookies.set("token", user.authToken);
-
-      return user;
-    } catch (e) {
-      throw new Error(e);
+    if (user) {
+      throw new Error("Username already in use.");
     }
+
+    user = await ctx.db.User.findOne({
+      email: args.email
+    });
+
+    if (user) {
+      throw new Error("Email already in use.");
+    }
+
+    return ctx.db.User(args).save();
   }
 };
