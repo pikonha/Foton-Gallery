@@ -1,8 +1,14 @@
 module.exports = {
-  owner: String,
-  author: String,
-  created: { type: Date, default: Date.now },
+  owner: { type: String, required: true },
   description: String,
   likes: { type: Number, default: 0 },
-  tags: [{ type: String }]
+  comments: [
+    {
+      owner: String,
+      body: String,
+      date: { type: Date, default: Date.now },
+      likes: { type: Number, default: 0 }
+    }
+  ],
+  created: { type: Date, default: Date.now }
 };

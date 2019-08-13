@@ -1,20 +1,27 @@
-const { GraphQLString } = require("graphql");
+const { GraphQLID, GraphQLString } = require("graphql");
 
-const Post = require("../../types/Post");
+const PostType = require("../../types/Post");
+const UserType = require("../../types/User");
 
 module.exports = {
-  type: Post,
+  type: PostType,
   args: {
-    owner: { type: GraphQLString },
-    author: { type: GraphQLString },
+    owner: { type: GraphQLID },
     description: { type: GraphQLString }
   },
   resolve: (source, args, ctx) => {
     const new_post = new ctx.db.Post({
       owner: args.owner,
-      author: args.author,
       description: args.description
     });
     return new_post.save();
   }
 };
+
+// resolve: (parent, _, ctx) => {
+//   try {
+//     return ctx.db.User(parent.owner);
+//   } catch (e) {
+//     throw new Error(e);
+//   }
+// }
