@@ -1,6 +1,6 @@
-const { GraphQLString } = require("graphql");
+import { GraphQLString } from "graphql";
 
-const Post = require("../../types/Post");
+import Post from "../../types/Post";
 
 module.exports = {
   type: Post,
@@ -10,7 +10,12 @@ module.exports = {
   resolve: async (source, { id }, ctx) => {
     try {
       const post = await ctx.db.Post.findById(id);
-      return post.remove();
+
+      if (post.likes > 0) {
+        post.likes -= 1;
+        return post.save();
+      }
+      return post;
     } catch (e) {
       throw new Error(e);
     }

@@ -1,7 +1,7 @@
-const fs = require("fs");
-const path = require("path");
+import fs from "fs";
+import path from "path";
 
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 /**
  *  Creates the Mongoose model from Model directory files

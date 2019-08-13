@@ -1,4 +1,4 @@
-const { GraphQLObjectType } = require("graphql");
+import { GraphQLObjectType } from "graphql";
 
 module.exports = new GraphQLObjectType({
   name: "RootQuery",

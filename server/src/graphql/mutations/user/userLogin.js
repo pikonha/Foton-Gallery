@@ -1,7 +1,7 @@
-const { GraphQLString } = require("graphql");
+import { GraphQLString } from "graphql";
 
-const UserType = require("../../types/User");
-const auth = require("../../../auth");
+import UserType from "../../types/User";
+import auth from "../../../auth";
 
 module.exports = {
   type: UserType,

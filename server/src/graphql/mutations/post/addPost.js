@@ -1,7 +1,6 @@
-const { GraphQLID, GraphQLString } = require("graphql");
+import { GraphQLID, GraphQLString } from "graphql";
 
-const PostType = require("../../types/Post");
-const UserType = require("../../types/User");
+import PostType from "../../types/Post";
 
 module.exports = {
   type: PostType,
@@ -17,11 +16,3 @@ module.exports = {
     return new_post.save();
   }
 };
-
-// resolve: (parent, _, ctx) => {
-//   try {
-//     return ctx.db.User(parent.owner);
-//   } catch (e) {
-//     throw new Error(e);
-//   }
-// }

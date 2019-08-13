@@ -1,6 +1,6 @@
 const { GraphQLObjectType, GraphQLString, GraphQLInt } = require("graphql");
 
-const UserType = require("../types/User");
+const UserType = require("./User");
 
 module.exports = new GraphQLObjectType({
   name: "Comment",

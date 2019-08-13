@@ -7,8 +7,8 @@ const {
   GraphQLNonNull
 } = require("graphql");
 
-const UserType = require("../types/User");
-const CommentType = require("../types/Comment");
+const UserType = require("./User");
+const CommentType = require("./Comment");
 
 module.exports = new GraphQLObjectType({
   name: "Post",

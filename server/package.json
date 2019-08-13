@@ -4,9 +4,11 @@
   "description": "Test to Full-Stack at Foton Tech Company",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
-    "start": "node server.js",
-    "test": "echo \"Error"
+    "dev": "nodemon dist/server.js",
+    "start": "node dist/server.js",
+    "test": "echo \"Error",
+    "build": "node_modules/.bin/babel src --out-dir dist",
+    "build:watch": "babel-watch src/server.js"
   },
   "repository": {
     "type": "git",
@@ -19,6 +21,9 @@
   },
   "homepage": "https://github.com/picolloo/foton-test#readme",
   "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "@koa/cors": "^3.0.0",
+    "core-js": "^2.6.9",
     "dotenv": "^8.0.0",
     "graphql": "^14.4.2",
     "jsonwebtoken": "^8.5.1",
@@ -30,6 +35,10 @@
     "mongoose-type-email": "^1.0.11"
   },
   "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-watch": "^7.0.0",
     "nodemon": "^1.19.1"
   }
 }

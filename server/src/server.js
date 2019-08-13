@@ -1,21 +1,28 @@
-const Koa = require("koa");
-const jwt = require("koa-jwt");
-const mount = require("koa-mount");
-const graphqlHTTP = require("koa-graphql");
+import Koa from "koa";
+import jwt from "koa-jwt";
+import mount from "koa-mount";
+import graphqlHTTP from "koa-graphql";
+import cors from "@koa/cors";
 
 require("dotenv").config();
 
-const auth = require("./auth");
-const database = require("./database");
-const GraphQLSchema = require("./graphql/schema");
+import auth from "./auth";
+import database from "./database";
+import GraphQLSchema from "./graphql/schema";
 
 const app = new Koa();
 
 (async () => {
-  app.context.db = await database.start(
-    __dirname + "/database/mongo",
-    process.env.DATABASE_URI
-  );
+  try {
+    app.context.db = await database.start(
+      __dirname + "/database/mongo",
+      process.env.DATABASE_URI
+    );
+  } catch (e) {
+    console.error(e);
+  }
+
+  app.use(cors());
 
   //  retrieve and decode jwt if present
   //  passthrough enabled to pass login/signup request to the /graphql endpoint

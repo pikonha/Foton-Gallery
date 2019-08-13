@@ -1,6 +1,6 @@
-const { GraphQLID } = require("graphql");
+import { GraphQLID } from "graphql";
 
-const Post = require("../../types/Post");
+import Post from "../../types/Post";
 
 module.exports = {
   type: Post,

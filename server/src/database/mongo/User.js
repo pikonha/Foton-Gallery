@@ -1,5 +1,5 @@
-const mongoose = require("mongoose");
-require("mongoose-type-email");
+import mongoose from "mongoose";
+import "mongoose-type-email";
 
 module.exports = {
   firstName: { type: String, required: true, minlength: 3, maxlength: 50 },
