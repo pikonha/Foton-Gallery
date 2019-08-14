@@ -1,18 +1,17 @@
 import { GraphQLString } from "graphql";
 
-import UserType from "../../types/User";
 import auth from "../../../auth";
 
 module.exports = {
-  type: UserType,
+  type: GraphQLString,
   description: "User login.",
   args: {
-    username: { type: GraphQLString },
+    email: { type: GraphQLString },
     password: { type: GraphQLString }
   },
   resolve: async (parent, args, ctx) => {
     const user = await ctx.db.User.findOne({
-      username: args.username
+      email: args.email
     });
 
     if (user) {
@@ -20,19 +19,18 @@ module.exports = {
         throw new Error("Invalid password.");
       }
 
-      // Injects the token to the user that will be passed thorough context
-      user.authToken = await auth.generateToken({
+      const authToken = await auth.generateToken({
         _id: user._id,
         username: user.username,
         sub: await ctx.db.User.countDocuments()
       });
 
       // Allow graphiql to access as a validated user
-      ctx.cookies.set("token", user.authToken);
+      ctx.cookies.set("token", authToken);
 
-      return user;
+      return authToken;
     }
 
-    throw new Error("Username not found.");
+    throw new Error("Invalid email.");
   }
 };
