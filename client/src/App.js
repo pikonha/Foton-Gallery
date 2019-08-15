@@ -6,6 +6,7 @@ import Login from "./components/Login";
 import Profile from "./components/Profile";
 import Register from "./components/Register";
 import Nav from "./components/Navbar";
+import Post from "./components/Post";
 
 function App() {
   return (
@@ -18,7 +19,7 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/profile" component={Profile} />
           <Route path="/register" component={Register} />
-          {/* <Route path="/:id" component={Register} /> */}
+          <Route path="/:id" component={Post} />
         </Switch>
       </div>
     </Router>
