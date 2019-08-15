@@ -18,6 +18,7 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/profile" component={Profile} />
           <Route path="/register" component={Register} />
+          {/* <Route path="/:id" component={Register} /> */}
         </Switch>
       </div>
     </Router>
