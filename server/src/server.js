@@ -13,14 +13,10 @@ import GraphQLSchema from "./graphql/schema";
 const app = new Koa();
 
 (async () => {
-  try {
-    app.context.db = await database.start(
-      __dirname + "/database/mongo",
-      process.env.DATABASE_URI
-    );
-  } catch (e) {
-    console.error(e);
-  }
+  app.context.db = await database.start(
+    __dirname + "/database/mongo",
+    process.env.DATABASE_URI
+  );
 
   app.use(cors());
 
@@ -43,7 +39,7 @@ const app = new Koa();
     )
   );
 
-  app.listen(3000);
+  app.listen(4000);
 
   app.on("error", err => console.error(err));
 })();

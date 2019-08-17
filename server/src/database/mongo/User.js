@@ -2,16 +2,14 @@ import mongoose from "mongoose";
 import "mongoose-type-email";
 
 module.exports = {
-  firstName: { type: String, required: true, minlength: 3, maxlength: 50 },
-  lastName: { type: String, required: true, minlength: 3, maxlength: 50 },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
   username: {
     type: String,
     required: true,
-    minlength: 3,
-    maxlength: 50,
     unique: true
   },
-  password: { type: String, required: true, minlength: 3, maxlength: 50 },
+  password: { type: String, required: true },
   email: {
     type: mongoose.SchemaTypes.Email,
     required: true,

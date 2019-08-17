@@ -1,4 +1,5 @@
-const { GraphQLString, GraphQLNonNull } = require("graphql");
+import GraphQLEmail from "graphql-type-email";
+import { GraphQLString, GraphQLNonNull } from "graphql";
 
 const UserType = require("../../types/User");
 
@@ -10,7 +11,7 @@ module.exports = {
     password: { type: new GraphQLNonNull(GraphQLString) },
     firstName: { type: new GraphQLNonNull(GraphQLString) },
     lastName: { type: new GraphQLNonNull(GraphQLString) },
-    email: { type: new GraphQLNonNull(GraphQLString) }
+    email: { type: new GraphQLNonNull(GraphQLEmail) }
   },
   resolve: async (parent, args, ctx) => {
     let user = await ctx.db.User.findOne({
