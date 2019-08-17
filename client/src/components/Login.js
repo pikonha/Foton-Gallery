@@ -1,53 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 
-export default class LoginForm extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleFieldChange = this.handleFieldChange.bind(this);
+function LoginForm(props) {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    this.state = {
-      username: "",
-      password: ""
-    };
-  }
+  return (
+    <div className="login-container">
+      <h1>Login</h1>
 
-  handleFieldChange(e) {
-    const formData = Object.assign({}, this.state);
-    formData[e.target.name] = e.target.value;
-    this.setState(formData);
-  }
+      <form className="login-form" action="/" method="get">
+        <input
+          name="username"
+          className="field"
+          onChange={e => setUsername(e.target.value)}
+          type="text"
+          placeholder="Username"
+          value={username}
+          required
+        />
+        <input
+          name="password"
+          value={password}
+          className="field"
+          onChange={e => setPassword(e.target.value)}
+          type="password"
+          placeholder="Password"
+          required
+        />
 
-  render() {
-    return (
-      <div className="login-container">
-        <h1>Login</h1>
-
-        <form className="login-form" action="/" method="get">
-          <input
-            name="username"
-            className="field"
-            onChange={this.handleFieldChange}
-            type="text"
-            placeholder="Username"
-            required
-          />
-          <input
-            name="password"
-            className="field"
-            onChange={this.handleFieldChange}
-            type="password"
-            placeholder="Password"
-            required
-          />
-
-          <div className="login-btns">
-            <button className="btn register-btn">Register</button>
-            <button className="btn login-btn" type="submit">
-              Send
-            </button>
-          </div>
-        </form>
-      </div>
-    );
-  }
+        <div className="login-btns">
+          <button className="btn register-btn">Register</button>
+          <button className="btn login-btn" type="submit">
+            Send
+          </button>
+        </div>
+      </form>
+    </div>
+  );
 }
+
+export default LoginForm;
