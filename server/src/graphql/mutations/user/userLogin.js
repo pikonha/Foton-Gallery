@@ -21,11 +21,10 @@ module.exports = {
         sub: await ctx.db.User.countDocuments()
       });
 
-      // Allow graphiql to access as a validated user
-
       return {
         success: true,
-        content: authToken
+        content: authToken,
+        user: user._id
       };
     }
 

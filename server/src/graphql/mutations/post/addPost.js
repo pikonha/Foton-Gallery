@@ -5,14 +5,14 @@ import PostType from "../../types/Post";
 module.exports = {
   type: PostType,
   args: {
-    owner: { type: GraphQLID },
-    description: { type: GraphQLString }
+    user: { type: GraphQLID },
+    body: { type: GraphQLString }
   },
-  resolve: (source, args, ctx) => {
+  resolve: async (_, { user, body }, ctx) => {
     const new_post = new ctx.db.Post({
-      owner: args.owner,
-      description: args.description
+      owner: user,
+      description: body
     });
-    return new_post.save();
+    return await new_post.save();
   }
 };

@@ -16,17 +16,13 @@ module.exports = new GraphQLObjectType({
     id: { type: GraphQLID },
     owner: {
       type: new GraphQLNonNull(UserType),
-      resolve: (parent, args, ctx) => {
-        try {
-          return ctx.db.User.findById(parent.owner);
-        } catch (e) {
-          throw new Error(e);
-        }
+      resolve: (parent, _, ctx) => {
+        return ctx.db.User.findById(parent.owner);
       }
     },
+    body: { type: GraphQLString },
     likes: { type: GraphQLInt },
     created: { type: GraphQLString },
-    description: { type: GraphQLString },
     comments: {
       type: new GraphQLList(CommentType),
       resolve: async (parent, _, ctx) => {

@@ -8,12 +8,8 @@ import {
 module.exports = new GraphQLObjectType({
   name: "SigninOutput",
   fields: () => ({
-    success: {
-      type: new GraphQLNonNull(GraphQLBoolean)
-      // resolve: output => {
-      //   return output.success;
-      // }
-    },
-    content: { type: GraphQLString }
+    success: { type: new GraphQLNonNull(GraphQLBoolean) },
+    content: { type: GraphQLString },
+    user: { type: GraphQLString }
   })
 });
