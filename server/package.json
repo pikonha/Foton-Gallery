@@ -4,7 +4,7 @@
   "description": "Test to Full-Stack at Foton Tech Company",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon dist/server.js",
+    "dev": "npm run build && nodemon dist/server.js",
     "start": "node dist/server.js",
     "test": "echo \"Error",
     "build": "node_modules/.bin/babel src --out-dir dist",

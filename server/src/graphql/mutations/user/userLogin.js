@@ -1,24 +1,20 @@
-import { GraphQLString } from "graphql";
+import { GraphQLString, GraphQLNonNull } from "graphql";
+import GraphQLEmail from "graphql-type-email";
 
+import SigninOutput from "../../types/SigninOutput";
 import auth from "../../../auth";
 
 module.exports = {
-  type: GraphQLString,
+  type: SigninOutput,
   description: "User login.",
   args: {
-    email: { type: GraphQLString },
-    password: { type: GraphQLString }
+    email: { type: new GraphQLNonNull(GraphQLEmail) },
+    password: { type: new GraphQLNonNull(GraphQLString) }
   },
-  resolve: async (parent, args, ctx) => {
-    const user = await ctx.db.User.findOne({
-      email: args.email
-    });
+  resolve: async (_, { email, password }, ctx) => {
+    const user = await ctx.db.User.findOne({ email });
 
-    if (user) {
-      if (user.password !== args.password) {
-        throw new Error("Invalid password.");
-      }
-
+    if (user && !ctx.cookie && user.password === password) {
       const authToken = await auth.generateToken({
         _id: user._id,
         username: user.username,
@@ -26,11 +22,16 @@ module.exports = {
       });
 
       // Allow graphiql to access as a validated user
-      ctx.cookies.set("token", authToken);
 
-      return authToken;
+      return {
+        success: true,
+        content: authToken
+      };
     }
 
-    throw new Error("Invalid email.");
+    return {
+      success: false,
+      content: "Invalid credentials."
+    };
   }
 };

@@ -1,7 +1,7 @@
 import GraphQLEmail from "graphql-type-email";
 import { GraphQLString, GraphQLNonNull } from "graphql";
 
-const UserType = require("../../types/User");
+import UserType from "../../types/User";
 
 module.exports = {
   type: UserType,
@@ -10,24 +10,16 @@ module.exports = {
     username: { type: new GraphQLNonNull(GraphQLString) },
     password: { type: new GraphQLNonNull(GraphQLString) },
     firstName: { type: new GraphQLNonNull(GraphQLString) },
-    lastName: { type: new GraphQLNonNull(GraphQLString) },
+    lastName: { type: GraphQLString },
     email: { type: new GraphQLNonNull(GraphQLEmail) }
   },
-  resolve: async (parent, args, ctx) => {
+  resolve: async (_, args, ctx) => {
     let user = await ctx.db.User.findOne({
-      username: args.username
-    });
-
-    if (user) {
-      throw new Error("Username already in use.");
-    }
-
-    user = await ctx.db.User.findOne({
       email: args.email
     });
 
     if (user) {
-      throw new Error("Email already in use.");
+      throw new Error("Email already registered.");
     }
 
     return ctx.db.User(args).save();
