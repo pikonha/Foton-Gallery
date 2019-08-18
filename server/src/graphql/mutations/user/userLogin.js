@@ -23,8 +23,7 @@ module.exports = {
 
       return {
         success: true,
-        content: authToken,
-        user: user._id
+        content: authToken
       };
     }
 

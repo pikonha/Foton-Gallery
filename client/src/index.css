@@ -9,25 +9,6 @@ body {
   overflow: hidden;
   background: lightgray;
 }
-/* NAVBAR */
-
-nav {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  min-height: 8vh;
-  color: white;
-  background: #999;
-}
-
-.nav-links {
-  width: 20%;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  list-style: none;
-  font-size: 20px;
-}
 
 /* LOGIN */
 

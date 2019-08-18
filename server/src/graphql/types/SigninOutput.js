@@ -9,7 +9,6 @@ module.exports = new GraphQLObjectType({
   name: "SigninOutput",
   fields: () => ({
     success: { type: new GraphQLNonNull(GraphQLBoolean) },
-    content: { type: GraphQLString },
-    user: { type: GraphQLString }
+    content: { type: GraphQLString }
   })
 });

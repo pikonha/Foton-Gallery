@@ -1,34 +1,52 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { gql } from "apollo-boost";
+import { useQuery } from "@apollo/react-hooks";
+import styled from "styled-components";
 
-function Home(props) {
-  const posts = [
-    { id: 1, username: "A", body: "AAAA", date: Date.now(), likes: 3 },
-    { id: 2, username: "B", body: "BBBB", date: Date.now(), likes: 2 }
-  ];
+import FormPost from "./FormPost";
+import Post from "./Post";
 
-  // posts.map(post => {
-  //   posts.push({
-  //     user: post.username,
-  //     body: post.body,
-  //     date: post.date,
-  //     likes: post.likes,
-  //     comments: []
-  //   });
-  // });
+const Container = styled.div`
+  margin: auto;
+  width: 60%;
+`;
+
+function Home() {
+  const { loading, error, data } = useQuery(gql`
+    {
+      posts {
+        id
+        owner {
+          username
+        }
+        body
+        likes
+        created
+      }
+    }
+  `);
+
+  if (loading) return <span>Loading...</span>;
+  if (error) return <span>Error :/</span>;
 
   return (
-    <div>
+    <Container>
+      <FormPost />
+
       <ul>
-        {posts.map(post => {
+        {data.posts.map(post => {
           return (
-            <li key={post.id}>
-              <Link to="/">{post.username}</Link>
-            </li>
+            <Post
+              key={post.id}
+              username={post.owner.username}
+              body={post.body}
+              likes={post.likes}
+              created={post.created}
+            />
           );
         })}
       </ul>
-    </div>
+    </Container>
   );
 }
 

@@ -11,7 +11,7 @@ module.exports = {
   resolve: async (_, { user, body }, ctx) => {
     const new_post = new ctx.db.Post({
       owner: user,
-      description: body
+      body: body
     });
     return await new_post.save();
   }
