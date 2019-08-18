@@ -61,8 +61,8 @@ function Post(props) {
         <span className="like-span">Likes: {props.likes}</span>
 
         <div className="btn-container">
-          <button>Like</button>
           <button>Comment</button>
+          <button>Like</button>
         </div>
       </StyledPost>
       {/* <ul>
