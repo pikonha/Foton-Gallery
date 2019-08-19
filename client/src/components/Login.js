@@ -1,4 +1,12 @@
 import React, { useState } from "react";
+import styled from "styled-components";
+
+const StyledContainer = styled.div`
+  max-width: 500px;
+  margin: 10px auto;
+  padding: 16px;
+  background: #f7f7f7;
+`;
 
 function LoginForm(props) {
   const [username, setUsername] = useState("");

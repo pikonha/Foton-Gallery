@@ -14,6 +14,7 @@ const StyledForm = styled.form`
     height: 8em;
     padding: 1em;
     resize: none;
+    border-radius: 4px;
 
     &:hover {
       border-color: #930;
@@ -32,17 +33,66 @@ const StyledForm = styled.form`
   }
 `;
 
+const GET_POSTS = gql`
+  {
+    posts {
+      id
+      owner {
+        username
+      }
+      body
+      likes
+      created
+    }
+  }
+`;
+
+const ADD_POST = gql`
+  mutation AddPost($user: ID!, $body: String!) {
+    addPost(user: $user, body: $body) {
+      body
+    }
+  }
+`;
+
 function FormPost() {
   const [content, setContent] = useState("");
+  const [addPost] = useMutation(ADD_POST, {
+    update(
+      cache,
+      {
+        data: { addPost }
+      }
+    ) {
+      const { posts } = cache.readQuery({ query: GET_POSTS });
+      cache.writeQuery({
+        query: GET_POSTS,
+        data: { posts: posts.concat([addPost]) }
+      });
+    }
+  });
+
+  function handleForm(e) {
+    e.preventDefault();
+    if (content) {
+      addPost({
+        variables: {
+          user: "5d5781503daeb177cea7cc7d",
+          body: content
+        }
+      });
+      setContent("");
+    }
+  }
 
   return (
-    <StyledForm>
+    <StyledForm onSubmit={handleForm}>
       <textarea
         placeholder="What is happening..."
         onChange={e => setContent(e.target.value)}
         value={content}
       />
-      <button>Send</button>
+      <button type="submit">Send</button>
     </StyledForm>
   );
 }
