@@ -1,0 +1,46 @@
+{
+  "name": "foton-test",
+  "version": "1.0.0",
+  "description": "Test to Full-Stack at Foton Tech Company",
+  "main": "server.js",
+  "scripts": {
+    "dev": "npm run build && nodemon dist/server.js",
+    "start": "node dist/server.js",
+    "test": "echo \"Error",
+    "build": "node_modules/.bin/babel src --out-dir dist",
+    "build:watch": "babel-watch src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/picolloo/foton-test.git"
+  },
+  "author": "lucas picollo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/picolloo/foton-test/issues"
+  },
+  "homepage": "https://github.com/picolloo/foton-test#readme",
+  "dependencies": {
+    "@babel/polyfill": "^7.4.4",
+    "@koa/cors": "^3.0.0",
+    "core-js": "^2.6.9",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "graphql": "^14.4.2",
+    "graphql-type-email": "^0.1.0",
+    "jsonwebtoken": "^8.5.1",
+    "koa": "^2.7.0",
+    "koa-graphql": "^0.8.0",
+    "koa-jwt": "^3.6.0",
+    "koa-mount": "^4.0.0",
+    "mongoose": "^5.6.8",
+    "mongoose-type-email": "^1.0.11"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.5.5",
+    "@babel/core": "^7.5.5",
+    "@babel/preset-env": "^7.5.5",
+    "babel-watch": "^7.0.0",
+    "nodemon": "^1.19.1"
+  }
+}
