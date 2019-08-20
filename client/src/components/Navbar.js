@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const NavStyle = styled.nav`
@@ -23,15 +22,10 @@ const NavLinksStyle = styled.ul`
 function Navbar() {
   return (
     <NavStyle>
-      <Link to="/">
-        <h3>Logo</h3>
-      </Link>
+      <h3>Logo</h3>
 
       <NavLinksStyle>
-        <Link to="/profile">
-          <li>Profile</li>
-        </Link>
-
+        <li>Profile</li>
         <li>Logout</li>
       </NavLinksStyle>
     </NavStyle>
