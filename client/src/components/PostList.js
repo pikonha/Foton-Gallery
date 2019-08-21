@@ -31,17 +31,21 @@ function PostList() {
 
   return (
     <StyledPostList>
-      {data.posts.map(post => {
-        return (
-          <Post
-            key={post.id}
-            username={post.owner.username}
-            body={post.body}
-            likes={post.likes}
-            created={post.created}
-          />
-        );
-      })}
+      {data.posts
+        .slice(0)
+        .reverse()
+        .map(post => {
+          return (
+            <Post
+              key={post.id}
+              id={post.id}
+              username={post.owner.username}
+              body={post.body}
+              likes={post.likes}
+              created={post.created}
+            />
+          );
+        })}
     </StyledPostList>
   );
 }

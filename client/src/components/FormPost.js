@@ -3,6 +3,64 @@ import { gql } from "apollo-boost";
 import { useMutation } from "@apollo/react-hooks";
 import styled from "styled-components";
 
+const GET_POSTS = gql`
+  query getPosts {
+    posts {
+      id
+      owner {
+        username
+      }
+      body
+      likes
+      created
+    }
+  }
+`;
+
+const ADD_POST = gql`
+  mutation AddPost($body: String!) {
+    addPost(body: $body) {
+      id
+      owner {
+        username
+      }
+      body
+      likes
+    }
+  }
+`;
+
+function FormPost() {
+  const [content, setContent] = useState("");
+  const [addPost] = useMutation(ADD_POST, {
+    variables: {
+      body: content
+    },
+    refetchQueries: ["getPosts"]
+  });
+
+  function handleForm(e) {
+    e.preventDefault();
+
+    addPost();
+    setContent("");
+  }
+
+  return (
+    <StyledForm onSubmit={handleForm}>
+      <textarea
+        placeholder="What is happening..."
+        onChange={e => setContent(e.target.value)}
+        value={content}
+        required
+      />
+      <button type="submit">Send</button>
+    </StyledForm>
+  );
+}
+
+export default FormPost;
+
 const StyledForm = styled.form`
   width: 100%;
   padding: 1.5em 1.5em 0;
@@ -27,74 +85,7 @@ const StyledForm = styled.form`
   }
 
   button {
-    padding: 5%;
-    background: none;
-    border: none;
+    padding: 1%;
+    margin-left: 1em;
   }
 `;
-
-const GET_POSTS = gql`
-  {
-    posts {
-      id
-      owner {
-        username
-      }
-      body
-      likes
-      created
-    }
-  }
-`;
-
-const ADD_POST = gql`
-  mutation AddPost($user: ID!, $body: String!) {
-    addPost(user: $user, body: $body) {
-      body
-    }
-  }
-`;
-
-function FormPost() {
-  const [content, setContent] = useState("");
-  const [addPost] = useMutation(ADD_POST, {
-    update(
-      cache,
-      {
-        data: { addPost }
-      }
-    ) {
-      const { posts } = cache.readQuery({ query: GET_POSTS });
-      cache.writeQuery({
-        query: GET_POSTS,
-        data: { posts: posts.concat([addPost]) }
-      });
-    }
-  });
-
-  function handleForm(e) {
-    e.preventDefault();
-    if (content) {
-      addPost({
-        variables: {
-          user: "5d5781503daeb177cea7cc7d",
-          body: content
-        }
-      });
-      setContent("");
-    }
-  }
-
-  return (
-    <StyledForm onSubmit={handleForm}>
-      <textarea
-        placeholder="What is happening..."
-        onChange={e => setContent(e.target.value)}
-        value={content}
-      />
-      <button type="submit">Send</button>
-    </StyledForm>
-  );
-}
-
-export default FormPost;
