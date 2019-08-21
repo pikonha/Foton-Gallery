@@ -2,16 +2,17 @@
   box-sizing: border-box;
 }
 
+html,
 body {
   margin: 0;
   padding: 0;
-  height: 100vh;
-  background: lightgray;
+  height: 100%;
+  font-family: "Montserrat", sans-serif;
 }
 
 /* LOGIN */
 
-.login-container {
+/* .login-container {
   max-width: 500px;
   margin: 10px auto;
   padding: 16px;
@@ -64,4 +65,4 @@ body {
   padding: 3%;
   background: #43d1af;
   color: black;
-}
+} */
