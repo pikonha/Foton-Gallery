@@ -1,5 +1,4 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const NavStyle = styled.nav`
@@ -9,6 +8,16 @@ const NavStyle = styled.nav`
   min-height: 8vh;
   color: white;
   background: #999;
+
+  a {
+    text-decoration: inherit;
+    color: inherit;
+  }
+
+  a:visited {
+    text-decoration: inherit;
+    color: inherit;
+  }
 `;
 
 const NavLinksStyle = styled.ul`
@@ -23,16 +32,17 @@ const NavLinksStyle = styled.ul`
 function Navbar() {
   return (
     <NavStyle>
-      <Link to="/">
-        <h3>Logo</h3>
-      </Link>
+      <h3>
+        <a href="/">Logo</a>
+      </h3>
 
       <NavLinksStyle>
-        <Link to="/profile">
-          <li>Profile</li>
-        </Link>
-
-        <li>Logout</li>
+        <li>
+          <a href="/profile">Profile</a>
+        </li>
+        <li>
+          <a href="/logout">Logout</a>
+        </li>
       </NavLinksStyle>
     </NavStyle>
   );
